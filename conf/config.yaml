@@ -1,0 +1,109 @@
+defaults:
+  - _self_
+
+# ================================
+# Main Experiment Configs
+# ================================
+env: visual-antmaze-medium-navigate-v0
+seed: 1
+total_timesteps: 500000
+device: cuda
+data_folder: ./data/
+
+# ================================
+# Evaluation Configs
+# ================================
+eval_freq: 50000
+log_freq: 5000
+eval_eps: 25
+
+# ================================
+# Logging and Saving
+# ================================
+project_name: ${env}_${seed}
+# project_name: ${env}_${hp.Q_horizon}_${hp.enc_horizon}_${hp.value_loss_fn}
+wandb_project: OGWorld
+eval_folder: ./evals
+log_folder: ./logs
+save_folder: ./checkpoint
+results_folder: ./results
+save_experiment: false
+save_freq: 100000
+load_experiment: false
+debug: false
+
+# ================================
+# Agent Hyperparameters
+# ================================
+frame_stack: 3
+
+hp:
+  # Generic
+  batched_buffer: false
+  chunks: 3
+  batch_size: 256
+  buffer_size: 1000000
+  gc_negative: true
+  discount: 0.99
+  target_update_freq: 250
+  storage_cpu: False 
+  
+  # Exploration
+  buffer_size_before_training: 10000
+  exploration_noise: 0.2
+
+  # TD3
+  target_policy_noise: 0.2
+  noise_clip: 0.3
+
+  # TD3+BC
+  lmbda: 0.3
+
+  # Encoder Loss
+  dyn_weight: 1.0
+  reward_weight: 0.1
+  done_weight: 0.1
+
+  # Replay Buffer (LAP)
+  prioritized: true
+  alpha: 0.4
+  min_priority: 1.0
+  enc_horizon: 5
+  Q_horizon: 3
+
+  # Encoder Model
+  zs_dim: 512
+  zsa_dim: 512
+  za_dim: 256
+  enc_hdim: 512
+  enc_activ: elu
+  enc_lr: 1e-4
+  enc_wd: 1e-4
+  pixel_augs: true
+
+  # Value Model
+  value_hdim: 512
+  value_activ: elu
+  value_lr: 3e-4
+  value_wd: 1e-4
+  value_grad_clip: 20.0
+
+  # Policy Model
+  policy_hdim: 512
+  policy_activ: relu
+  policy_lr: 3e-4
+  policy_wd: 1e-4
+  gumbel_tau: 10.0
+  pre_activ_weight: 1e-5
+
+  # Reward Model
+  # num_bins: 65
+  # lower: -10
+  # upper: 10
+
+
+hydra:
+  run:
+    # chdir: False
+    # dir: outputs/${env}/${now:%Y-%m-%d_%H-%M-%S}
+    dir: ${log_folder}/${env}/${now:%Y-%m-%d_%H-%M-%S}

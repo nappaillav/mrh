@@ -1,0 +1,12 @@
+__pycache__
+eval/
+key/
+logs/
+results/
+wandb/
+*.npy
+*.npz
+
+results_*/
+logs_*/
+
