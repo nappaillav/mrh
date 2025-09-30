@@ -26,7 +26,7 @@ wandb_project: OGWorld
 eval_folder: ./evals
 log_folder: ./logs
 save_folder: ./checkpoint
-results_folder: ./results
+results_folder: ./results_lmbda
 save_experiment: false
 save_freq: 100000
 load_experiment: false
@@ -72,8 +72,8 @@ hp:
   dyn_weight: 1.0
   reward_weight: 0.5
   idyn_weight: 0.1
-  hinv_weight: 0.2 # Action Chunking
-  hdyn_weight: 0.2 # High Dynamics (Action free)
+  hinv_weight: 0.3 # Action Chunking
+  hdyn_weight: 0.1 # High Dynamics (Action free)
   zs_dim: 512
   encoder_lr: 1e-4
   encoder_wd: 1e-4
@@ -99,9 +99,9 @@ hp:
   num_bins: 21
 
   act_chunk: 5
-  n_layer: 2
+  n_layer: 3
   stop_goal_grad: false
-  stop_hl_grads: true
+  stop_hl_grads: false
 
 hydra:
   run:
